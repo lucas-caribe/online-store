@@ -5,11 +5,6 @@ import PurchaseForm from '../../components/PurchaseForm';
 import PurchaseScreenItem from '../../components/PurchaseScreenItem';
 import HomeIcon from '../../components/HomeIcon';
 
-import {
-  getItemFromLocalStorage,
-  getItemsFromLocalStorage,
-} from '../../utils/localStorageHelpers';
-
 import './style.css';
 
 class PurchaseScreen extends React.Component {
@@ -33,17 +28,17 @@ class PurchaseScreen extends React.Component {
     this.fetchProducts();
   }
 
-  fetchProducts = () => {
-    const items = getItemsFromLocalStorage('cartItems');
-    const totalPrice = getItemFromLocalStorage('totalPrice');
+  // fetchProducts = () => {
+  //   // const items = getItemsFromLocalStorage('cartItems');
+  //   // const totalPrice = getItemFromLocalStorage('totalPrice');
 
-    const fixedPrice = Number(totalPrice.toFixed(2));
+  //   const fixedPrice = Number(totalPrice.toFixed(2));
 
-    this.setState({
-      items,
-      totalPrice: fixedPrice,
-    });
-  };
+  //   this.setState({
+  //     items,
+  //     totalPrice: fixedPrice,
+  //   });
+  // };
 
   handleClick = (event) => {
     event.preventDefault();

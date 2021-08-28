@@ -1,37 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import CartLink from '../CartLink';
 import Product from '../Product';
-
-import { getItemsFromLocalStorage } from '../../utils/localStorageHelpers';
 
 import './style.css';
 
 class ProductList extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      itemCount: 0,
-    };
-  }
-
-  componentDidMount() {
-    this.updateItemCount();
-  }
-
-  updateItemCount = () => {
-    const items = getItemsFromLocalStorage('cartItems');
-
-    const itemCount = items.reduce((acc, { amount }) => acc + amount, 0);
-
-    this.setState({ itemCount });
-  };
-
   render() {
-    const { itemCount } = this.state;
-    const { productList, history } = this.props;
+    const { loading, productList, searchTerm } = this.props;
+
+    if (loading) {
+      return <p>Loading...</p>;
+    }
 
     if (!productList.length) {
       return (
@@ -39,25 +20,19 @@ class ProductList extends React.Component {
           <p data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma categoria.
           </p>
-          <CartLink itemCount={ itemCount } />
         </div>
       );
     }
 
     return (
-      <div>
-        <CartLink itemCount={ itemCount } />
+      <>
+        {searchTerm && <p>{`resultados da busca por ${searchTerm}`}</p>}
         <div className="products">
           {productList.map((product) => (
-            <Product
-              key={ product.id }
-              history={ history }
-              product={ product }
-              updateItemCount={ this.updateItemCount }
-            />
+            <Product {...this.props} key={product.id} product={product} />
           ))}
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -65,6 +40,13 @@ class ProductList extends React.Component {
 ProductList.propTypes = {
   productList: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  searchTerm: PropTypes.string.isRequired,
 };
 
-export default ProductList;
+const mapStateToProps = ({ products }) => ({
+  productList: products.productList,
+  loading: products.loading,
+  searchTerm: products.searchTerm,
+});
+
+export default connect(mapStateToProps)(ProductList);

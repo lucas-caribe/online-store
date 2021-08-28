@@ -3,12 +3,15 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { Home, Cart, ProductDetails, PurchaseScreen } from './pages';
 
+import CartLink from './components/CartLink';
+
 import './App.css';
 
 function App() {
   return (
     <BrowserRouter basename="/online-store">
       <div className="App">
+        <CartLink />
         <Switch>
           <Route exact path="/" component={ Home } />
           <Route exact path="/cart" component={ Cart } />

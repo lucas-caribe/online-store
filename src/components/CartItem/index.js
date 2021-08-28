@@ -1,66 +1,56 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { ImCross } from 'react-icons/im';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
+import {
+  removeProduct as removeProductAction,
+  incrementThunk,
+  decrementThunk,
+} from '../../redux/actions/cartActions';
+
 import './style.css';
 
 class CartItem extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      quantity: props.amount,
-    };
-  }
-
-  getNewQuantity = (state, action) => {
-    switch (action) {
-    case 'increment':
-      return state + 1;
-    case 'decrement':
-      return state - 1;
-    default:
-      return state;
-    }
-  };
-
   handleClick = ({ target }) => {
-    const { availableQuantity, updateItemAmount, id } = this.props;
-    const { quantity } = this.state;
+    const { product, increment, decrement } = this.props;
     const {
       dataset: { action },
     } = target;
 
-    const newQuantity = this.getNewQuantity(quantity, action);
-
-    if (newQuantity > 0 && newQuantity <= availableQuantity) {
-      this.setState({ quantity: newQuantity });
-
-      updateItemAmount(newQuantity, id);
+    if (action === 'increment') {
+      increment(product);
+    } else if (action === 'decrement') {
+      decrement(product);
     }
   };
 
   render() {
-    const { id, title, price, thumbnail, removeItemFromCart } = this.props;
-    const { quantity } = this.state;
+    const { product, removeProduct } = this.props;
+    const { title, price, thumbnail, quantity } = product;
+
+    const fixedPrice = (price * quantity).toFixed(2);
+
     return (
       <div className="cart-item">
         <button
           className="remove-item"
           type="button"
-          onClick={ () => removeItemFromCart(id, quantity) }
+          onClick={() => removeProduct(product)}
         >
           <ImCross />
         </button>
-        <img className="item-image" src={ thumbnail } alt={ title } />
-        <p className="item-title" data-testid="shopping-cart-product-name">{title}</p>
+        <img className="item-image" src={thumbnail} alt={title} />
+        <p className="item-title" data-testid="shopping-cart-product-name">
+          {title}
+        </p>
         <div className="quantity-container">
           <button
             type="button"
             data-action="decrement"
-            onClick={ this.handleClick }
+            onClick={this.handleClick}
             data-testid="product-decrease-quantity"
           >
             <AiOutlineMinus />
@@ -69,31 +59,34 @@ class CartItem extends React.Component {
           <button
             type="button"
             data-action="increment"
-            onClick={ this.handleClick }
+            onClick={this.handleClick}
             data-testid="product-increase-quantity"
           >
             <AiOutlinePlus />
           </button>
         </div>
-        <p className="item-price">
-          R$
-          {' '}
-          {price}
-        </p>
+        <p className="item-price">R$ {fixedPrice}</p>
       </div>
     );
   }
 }
 
 CartItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
-  availableQuantity: PropTypes.number.isRequired,
-  removeItemFromCart: PropTypes.func.isRequired,
-  updateItemAmount: PropTypes.func.isRequired,
+  product: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+  }).isRequired,
+  removeProduct: PropTypes.func.isRequired,
+  increment: PropTypes.func.isRequired,
+  decrement: PropTypes.func.isRequired,
 };
 
-export default CartItem;
+const mapDispatchToProps = (dispatch) => ({
+  removeProduct: (product) => dispatch(removeProductAction(product)),
+  increment: (product) => dispatch(incrementThunk(product)),
+  decrement: (product) => dispatch(decrementThunk(product)),
+});
+
+export default connect(null, mapDispatchToProps)(CartItem);

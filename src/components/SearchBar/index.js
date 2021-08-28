@@ -1,34 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { FaSearch } from 'react-icons/fa';
+
+import { fetchProductsThunk } from '../../redux/actions/productActions';
 
 import './style.css';
 
 class SearchBar extends React.Component {
-  handleClick = (event) => {
-    event.preventDefault();
-    const { searchTerm, onClick } = this.props;
+  constructor(props) {
+    super(props);
 
-    onClick('', searchTerm);
+    this.state = {
+      searchTerm: props.searchTerm,
+    };
   }
 
+  handleChange = ({ target }) => {
+    this.setState({
+      searchTerm: target.value,
+    });
+  };
+
+  handleClick = (event) => {
+    event.preventDefault();
+    const { fetchProducts } = this.props;
+    const { searchTerm } = this.state;
+
+    this.setState({
+      searchTerm: '',
+    });
+    fetchProducts('', searchTerm);
+  };
+
   render() {
-    const { searchTerm, onChange } = this.props;
+    const { searchTerm } = this.state;
 
     return (
       <form className="search-form">
         <input
           className="search-input"
           type="text"
-          value={ searchTerm }
-          onChange={ onChange }
+          value={searchTerm}
+          onChange={this.handleChange}
           data-testid="query-input"
         />
         <button
           className="search-button"
           type="submit"
-          onClick={ this.handleClick }
+          onClick={this.handleClick}
           data-testid="query-button"
         >
           <FaSearch />
@@ -39,9 +60,12 @@ class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
-  searchTerm: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  fetchProducts: PropTypes.func.isRequired,
 };
 
-export default SearchBar;
+const mapDispatchToProps = (dispatch) => ({
+  fetchProducts: (category, searchTerm) =>
+    dispatch(fetchProductsThunk(category, searchTerm)),
+});
+
+export default connect(null, mapDispatchToProps)(SearchBar);

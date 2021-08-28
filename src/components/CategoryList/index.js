@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import CategoryItem from '../CategoryItem';
 
@@ -28,29 +27,17 @@ class CategoryList extends React.Component {
 
   render() {
     const { categories } = this.state;
-    const { selectedCategory, onChange } = this.props;
 
     return (
       <div className="sidebar">
         <ul className="filter">
           {categories.map(({ id, name }) => (
-            <CategoryItem
-              key={ id }
-              categoryName={ name }
-              categoryId={ id }
-              selectedCategory={ selectedCategory }
-              onChange={ onChange }
-            />
+            <CategoryItem key={id} categoryName={name} categoryId={id} />
           ))}
         </ul>
       </div>
     );
   }
 }
-
-CategoryList.propTypes = {
-  selectedCategory: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 
 export default CategoryList;

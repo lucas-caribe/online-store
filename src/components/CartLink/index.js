@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 
@@ -28,4 +29,8 @@ CartLink.propTypes = {
   itemCount: PropTypes.number.isRequired,
 };
 
-export default CartLink;
+const mapStateToProps = ({ cart }) => ({
+  itemCount: cart.itemCount,
+});
+
+export default connect(mapStateToProps)(CartLink);

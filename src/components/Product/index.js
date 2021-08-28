@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { FaShippingFast } from 'react-icons/fa';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 
-import {
-  getItemsFromLocalStorage,
-  saveItemToLocalStorage,
-} from '../../utils/localStorageHelpers';
+import { setProductThunk } from '../../redux/actions/cartActions';
 
 import './style.css';
 
@@ -25,43 +23,25 @@ class Product extends React.Component {
   }
 
   checkCart = () => {
-    const items = getItemsFromLocalStorage('cartItems');
-    const { product } = this.props;
+    const { cartItems, product } = this.props;
 
     this.setState({
-      isAtCart: items.some((item) => item.id === product.id),
+      isAtCart: cartItems.some((item) => item.id === product.id),
     });
   };
 
   handleClick = () => {
-    const { isAtCart } = this.state;
-    const { product, updateItemCount } = this.props;
+    const { setProduct, product } = this.props;
 
-    const items = getItemsFromLocalStorage('cartItems');
+    setProduct(product);
 
-    if (!isAtCart) {
-      const newItems = [...items, { ...product, amount: 1 }];
-
-      this.setState({ isAtCart: true });
-      saveItemToLocalStorage('cartItems', newItems);
-      updateItemCount();
-    } else {
-      const newItems = items.map((item) => {
-        if (item.id === product.id) {
-          return { ...item, amount: item.amount + 1 };
-        }
-        return item;
-      });
-
-      saveItemToLocalStorage('cartItems', newItems);
-      updateItemCount();
-    }
+    this.setState({
+      isAtCart: true,
+    });
   };
 
   handleProductClick = () => {
     const { product, history } = this.props;
-
-    saveItemToLocalStorage('productDetails', product);
 
     history.push(`/product/${product.id}`);
   };
@@ -77,36 +57,32 @@ class Product extends React.Component {
   render() {
     const { isAtCart } = this.state;
     const { product } = this.props;
-
+    
     return (
-      <div className="product-card" data-testid="product" key={ product.id }>
+      <div className="product-card" data-testid="product" key={product.id}>
         <div
           className="product-info"
           data-testid="product-detail-link"
-          onClick={ this.handleProductClick }
-          onKeyDown={ this.handleProductKeyDown }
+          onClick={this.handleProductClick}
+          onKeyDown={this.handleProductKeyDown}
           role="link"
-          tabIndex={ 0 }
+          tabIndex={0}
         >
           <div className="image-container">
             <img
               className="product-image"
-              src={ product.thumbnail }
-              alt={ `imagem de ${product.title}` }
+              src={product.thumbnail}
+              alt={`imagem de ${product.title}`}
             />
           </div>
           <p>{product.title}</p>
-          <p>
-            R$
-            {' '}
-            {product.price}
-          </p>
+          <p>{`R$ ${product.price}`}</p>
         </div>
         <button
           className="cart-button"
           type="button"
           data-testid="product-add-to-cart"
-          onClick={ this.handleClick }
+          onClick={this.handleClick}
         >
           ADICIONAR AO CARRINHO
         </button>
@@ -134,8 +110,15 @@ Product.propTypes = {
     price: PropTypes.number.isRequired,
     freeShipping: PropTypes.bool.isRequired,
   }).isRequired,
-  updateItemCount: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default Product;
+const mapStateToProps = ({ cart }) => ({
+  cartItems: cart.items,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setProduct: (product) => dispatch(setProductThunk(product)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);
