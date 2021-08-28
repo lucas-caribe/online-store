@@ -1,0 +1,12 @@
+.purchase-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  margin: 0 auto;
+  margin-top: 3em;
+  width: 70%;
+}
+
+.total-price {
+  text-align: end;
+}

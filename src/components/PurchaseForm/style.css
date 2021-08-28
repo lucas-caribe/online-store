@@ -1,0 +1,69 @@
+.purchase-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: -2em;
+}
+
+.name {
+  grid-area: name;
+}
+
+.cpf {
+  grid-area: cpf;
+}
+
+.email {
+  grid-area: email;
+}
+
+.phone {
+  grid-area: phone;
+}
+
+.cep {
+  grid-area: cep;
+}
+
+.address {
+  grid-area: address;
+}
+
+.customer-info {
+  align-self: center;
+  display: grid;
+  gap: 0.8em;
+  grid-template-areas: 'name cpf email phone'
+    'cep address address address';
+  padding: 1em 0;
+  width: 100%;
+}
+
+.customer-info-header {
+  align-self: flex-start;
+}
+
+.customer-info > input {
+  padding: 0.5em;
+}
+
+.purchase-form > button {
+  align-self: flex-start;
+  background: #e2e2e2;
+  border: none;
+  border-radius: 5px;
+  color: #2b2b2b;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.8em;
+  font-weight: 700;
+  margin-top: 1em;
+  padding: 1em 2em;
+  text-decoration: none;
+  width: max-content;
+}
+
+.purchase-form > button:hover {
+  filter: brightness(0.8);
+}

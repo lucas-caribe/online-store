@@ -1,0 +1,16 @@
+.purchase-screen-item {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr 1fr;
+  justify-items: center;
+  position: relative;
+}
+
+.purchase-screen-item:after {
+  background: rgba(0, 0, 0, 0.2);
+  bottom: -1em;
+  content: '';
+  height: 1px;
+  position: absolute;
+  width: 100%;
+}
