@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import CartItem from '../../components/CartItem';
 import HomeIcon from '../../components/HomeIcon';
@@ -37,6 +38,11 @@ class Cart extends React.Component {
     );
   }
 }
+
+Cart.propTypes = {
+  cartItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  totalPrice: PropTypes.number.isRequired,
+};
 
 const mapStateToProps = ({ cart }) => ({
   cartItems: cart.items,

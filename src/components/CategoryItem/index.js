@@ -14,10 +14,6 @@ class CategoryItem extends React.Component {
     if (target.value) {
       fetchProducts(target.value, '');
     }
-
-    this.setState({
-      selectedCategory: target.value,
-    });
   };
 
   render() {
@@ -51,6 +47,7 @@ CategoryItem.propTypes = {
   categoryName: PropTypes.string.isRequired,
   categoryId: PropTypes.string.isRequired,
   selectedCategory: PropTypes.string.isRequired,
+  fetchProducts: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ products }) => ({

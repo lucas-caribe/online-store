@@ -41,6 +41,7 @@ ProductList.propTypes = {
   productList: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   searchTerm: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({ products }) => ({
