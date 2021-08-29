@@ -57,7 +57,7 @@ class Product extends React.Component {
   render() {
     const { isAtCart } = this.state;
     const { product } = this.props;
-    
+
     return (
       <div className="product-card" data-testid="product" key={product.id}>
         <div
@@ -111,6 +111,8 @@ Product.propTypes = {
     freeShipping: PropTypes.bool.isRequired,
   }).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setProduct: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ cart }) => ({

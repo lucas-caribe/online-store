@@ -61,6 +61,11 @@ class SearchBar extends React.Component {
 
 SearchBar.propTypes = {
   fetchProducts: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string,
+};
+
+SearchBar.defaultProps = {
+  searchTerm: '',
 };
 
 const mapDispatchToProps = (dispatch) => ({
