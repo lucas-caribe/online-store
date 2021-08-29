@@ -51,7 +51,6 @@ CategoryItem.propTypes = {
   categoryName: PropTypes.string.isRequired,
   categoryId: PropTypes.string.isRequired,
   selectedCategory: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ products }) => ({
