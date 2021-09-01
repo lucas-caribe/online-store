@@ -13,7 +13,7 @@ class CartLink extends React.Component {
 
     return (
       <Link
-        key={ itemCount }
+        key={itemCount}
         className="cart-link"
         to="/cart"
         data-testid="shopping-cart-button"

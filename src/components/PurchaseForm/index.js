@@ -5,7 +5,8 @@ import './style.css';
 
 class PurchaseForm extends React.Component {
   render() {
-    const { name, email, cpf, phone, postalCode, adress, onClick, onChange } = this.props;
+    const { name, email, cpf, phone, postalCode, adress, onClick, onChange } =
+      this.props;
     return (
       <form className="purchase-form">
         <h3 className="customer-info-header">Informações do comprador</h3>
@@ -15,8 +16,8 @@ class PurchaseForm extends React.Component {
             name="name"
             type="text"
             data-testid="checkout-fullname"
-            onChange={ onChange }
-            value={ name }
+            onChange={onChange}
+            value={name}
             placeholder="Nome Completo"
             className="name"
           />
@@ -27,8 +28,8 @@ class PurchaseForm extends React.Component {
             type="text"
             data-testid="checkout-cpf"
             placeholder="CPF (apenas números)"
-            onChange={ onChange }
-            value={ cpf }
+            onChange={onChange}
+            value={cpf}
             className="cpf"
           />
 
@@ -37,8 +38,8 @@ class PurchaseForm extends React.Component {
             name="email"
             type="email"
             data-testid="checkout-email"
-            onChange={ onChange }
-            value={ email }
+            onChange={onChange}
+            value={email}
             placeholder="Email"
             className="email"
           />
@@ -48,8 +49,8 @@ class PurchaseForm extends React.Component {
             name="phone"
             type="text"
             data-testid="checkout-phone"
-            onChange={ onChange }
-            value={ phone }
+            onChange={onChange}
+            value={phone}
             placeholder="Telefone"
             className="phone"
           />
@@ -59,8 +60,8 @@ class PurchaseForm extends React.Component {
             name="postalCode"
             type="text"
             data-testid="checkout-cep"
-            onChange={ onChange }
-            value={ postalCode }
+            onChange={onChange}
+            value={postalCode}
             placeholder="CEP (apenas números)"
             className="cep"
           />
@@ -70,13 +71,13 @@ class PurchaseForm extends React.Component {
             name="adress"
             type="text"
             data-testid="checkout-address"
-            onChange={ onChange }
-            value={ adress }
+            onChange={onChange}
+            value={adress}
             placeholder="Endereço"
             className="address"
           />
         </div>
-        <button type="submit" onClick={ onClick }>
+        <button type="submit" onClick={onClick}>
           Finalizar Compra
         </button>
       </form>

@@ -1,31 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StarRatings from 'react-star-ratings';
+import { connect } from 'react-redux';
+
+import { addEvaluationThunk } from '../../redux/actions/evaluationActions';
 
 import './style.css';
 
-class EvaluatingForm extends React.Component {
+class EvaluationForm extends React.Component {
   constructor() {
     super();
 
     this.state = {
       rating: 0,
       comment: '',
-      user: '',
+      email: '',
     };
   }
 
-  handleClick = (event, addEvaluation) => {
+  handleClick = (event) => {
     event.preventDefault();
 
-    const { id } = this.props;
+    const { id, addEvaluation } = this.props;
 
-    addEvaluation({ ...this.state, id });
+    addEvaluation(id, this.state);
 
     this.setState({
       rating: 0,
       comment: '',
-      user: '',
+      email: '',
     });
   };
 
@@ -44,7 +47,7 @@ class EvaluatingForm extends React.Component {
   };
 
   render() {
-    const { rating, comment, user } = this.state;
+    const { rating, comment, email } = this.state;
     const { addEvaluation } = this.props;
 
     return (
@@ -53,20 +56,20 @@ class EvaluatingForm extends React.Component {
         <form className="evaluation-form">
           <div className="email-rating">
             <input
-              id="user"
-              name="user"
+              id="email"
+              name="email"
               type="text"
-              value={ user }
-              onChange={ this.handleChange }
+              value={email}
+              onChange={this.handleChange}
               placeholder="Email"
             />
 
             <StarRatings
-              rating={ rating }
+              rating={rating}
               starRatedColor="rgb(255, 194, 25)"
               starHoverColor="rgb(255, 194, 25)"
-              changeRating={ this.handleStarChange }
-              numberOfStars={ 5 }
+              changeRating={this.handleStarChange}
+              numberOfStars={5}
               name="rating"
               starDimension="2em"
               starSpacing="0.5em"
@@ -76,15 +79,15 @@ class EvaluatingForm extends React.Component {
           <textarea
             id="comment"
             name="comment"
-            value={ comment }
-            onChange={ this.handleChange }
+            value={comment}
+            onChange={this.handleChange}
             data-testid="product-detail-evaluation"
             placeholder="Comentários"
           />
 
           <button
             type="submit"
-            onClick={ (event) => this.handleClick(event, addEvaluation) }
+            onClick={(event) => this.handleClick(event, addEvaluation)}
           >
             AVALIAR
           </button>
@@ -94,9 +97,14 @@ class EvaluatingForm extends React.Component {
   }
 }
 
-EvaluatingForm.propTypes = {
+EvaluationForm.propTypes = {
   id: PropTypes.string.isRequired,
   addEvaluation: PropTypes.func.isRequired,
 };
 
-export default EvaluatingForm;
+const mapDispatchToProps = (dispatch) => ({
+  addEvaluation: (productId, evaluation) =>
+    dispatch(addEvaluationThunk(productId, evaluation)),
+});
+
+export default connect(null, mapDispatchToProps)(EvaluationForm);

@@ -65,7 +65,8 @@ class PurchaseScreen extends React.Component {
 
   render() {
     const { items, totalPrice } = this.state;
-    const { name, email, cpf, phone, postalCode, adress, purchaseFinished } = this.state;
+    const { name, email, cpf, phone, postalCode, adress, purchaseFinished } =
+      this.state;
     return (
       <>
         <HomeIcon />
@@ -73,23 +74,23 @@ class PurchaseScreen extends React.Component {
           {purchaseFinished ? <Redirect to="/" /> : null}
           {items.map((element) => (
             <PurchaseScreenItem
-              key={ element.title }
-              title={ element.title }
-              price={ element.price }
-              amount={ element.amount }
-              thumbnail={ element.thumbnail }
+              key={element.title}
+              title={element.title}
+              price={element.price}
+              amount={element.amount}
+              thumbnail={element.thumbnail}
             />
           ))}
           <p className="total-price">{`Total: R$ ${totalPrice}`}</p>
           <PurchaseForm
-            name={ name }
-            email={ email }
-            cpf={ cpf }
-            phone={ phone }
-            postalCode={ postalCode }
-            adress={ adress }
-            onClick={ this.handleClick }
-            onChange={ this.handleChange }
+            name={name}
+            email={email}
+            cpf={cpf}
+            phone={phone}
+            postalCode={postalCode}
+            adress={adress}
+            onClick={this.handleClick}
+            onChange={this.handleChange}
           />
         </div>
       </>
