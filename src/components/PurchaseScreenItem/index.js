@@ -8,7 +8,7 @@ class PurchaseScreenItem extends React.Component {
     const { amount, price, thumbnail, title } = this.props;
     return (
       <div className="purchase-screen-item">
-        <img src={ thumbnail } alt={ title } width="50px" />
+        <img src={thumbnail} alt={title} width="50px" />
         <p>{title}</p>
         <p>{amount}</p>
         <p>{`R$ ${price}`}</p>

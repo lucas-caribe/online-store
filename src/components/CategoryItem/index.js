@@ -7,7 +7,6 @@ import { fetchProductsThunk } from '../../redux/actions/productActions';
 import './style.css';
 
 class CategoryItem extends React.Component {
-
   handleCategoryChange = ({ target }) => {
     const { fetchProducts } = this.props;
 
@@ -23,18 +22,18 @@ class CategoryItem extends React.Component {
     return (
       <li>
         <label
-          className={ isSelected ? 'filter-item selected' : 'filter-item' }
-          htmlFor={ categoryId }
+          className={isSelected ? 'filter-item selected' : 'filter-item'}
+          htmlFor={categoryId}
           data-testid="category"
         >
           <input
             className="item-selector"
-            id={ categoryId }
+            id={categoryId}
             type="radio"
             name="category"
-            value={ categoryId }
-            checked={ isSelected }
-            onChange={ this.handleCategoryChange }
+            value={categoryId}
+            checked={isSelected}
+            onChange={this.handleCategoryChange}
           />
           {categoryName}
         </label>
@@ -51,13 +50,12 @@ CategoryItem.propTypes = {
 };
 
 const mapStateToProps = ({ products }) => ({
-  selectedCategory: products.category, 
+  selectedCategory: products.category,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProducts: (category, searchTerm) =>
     dispatch(fetchProductsThunk(category, searchTerm)),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryItem);

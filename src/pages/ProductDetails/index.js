@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import HomeIcon from '../../components/HomeIcon';
-import EvaluatingForm from '../../components/EvaluatingForm';
+import EvaluationForm from '../../components/EvaluationForm';
 import EvaluationsZone from '../../components/EvaluationsZone';
 
 import { getProductById } from '../../services/api';
@@ -19,25 +19,12 @@ class ProductDetails extends React.Component {
     this.state = {
       loading: true,
       product: {},
-      evaluations: [],
     };
   }
 
   componentDidMount() {
     this.fetchProduct();
   }
-
-  // addEvaluation = (evaluation) => {
-  //   const items = getItemsFromLocalStorage('evaluations');
-
-  //   const newItems = [...items, evaluation];
-
-  //   saveItemToLocalStorage('evaluations', newItems);
-
-  //   this.setState((prevState) => ({
-  //     evaluations: [...prevState.evaluations, evaluation],
-  //   }));
-  // };
 
   fetchProduct = async () => {
     const {
@@ -54,18 +41,6 @@ class ProductDetails extends React.Component {
     });
   };
 
-  // getEvaluationsById = (id) => {
-  //   const evaluations = getItemsFromLocalStorage('evaluations');
-
-  //   const filteredEvaluations = evaluations.filter(
-  //     (element) => element.id === id,
-  //   );
-
-  //   this.setState({
-  //     evaluations: filteredEvaluations,
-  //   });
-  // };
-
   handleClick = () => {
     const { setProduct } = this.props;
     const { product } = this.state;
@@ -74,22 +49,29 @@ class ProductDetails extends React.Component {
   };
 
   render() {
-    const { loading, product, evaluations } = this.state;
+    const { loading, product } = this.state;
+    const { evaluations } = this.props;
 
     if (loading) {
       return <p>Loading</p>;
     }
+
+    const productEvaluations = evaluations[product.id];
 
     return (
       <>
         <HomeIcon />
         <div className="product-details">
           <h1 data-testid="product-detail-name">{product.title}</h1>
+
           <p className="product-price">R$ {product.price}</p>
+
           <div className="product-main-info">
             <img src={product.pictures[0].url} alt={product.title} />
+
             <div className="product-attributes">
               <h1>Especificações técnicas</h1>
+
               {product.attributes.map((attribute) => (
                 <p key={attribute.name}>
                   {`${attribute.name}: `}
@@ -105,8 +87,8 @@ class ProductDetails extends React.Component {
           >
             ADICIONAR AO CARRINHO
           </button>
-          <EvaluatingForm id={product.id} addEvaluation={this.addEvaluation} />
-          <EvaluationsZone evaluations={evaluations} />
+          <EvaluationForm id={product.id} />
+          <EvaluationsZone evaluations={productEvaluations} />
         </div>
       </>
     );
@@ -121,10 +103,15 @@ ProductDetails.propTypes = {
     url: PropTypes.string.isRequired,
   }).isRequired,
   setProduct: PropTypes.func.isRequired,
+  evaluations: PropTypes.objectOf(PropTypes.array).isRequired,
 };
+
+const mapStateToProps = ({ evaluations }) => ({
+  evaluations,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   setProduct: (product) => dispatch(setProductThunk(product)),
 });
 
-export default connect(null, mapDispatchToProps)(ProductDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);

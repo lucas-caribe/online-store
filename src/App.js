@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Home, Cart, ProductDetails, PurchaseScreen } from './pages';
 
 import CartLink from './components/CartLink';
+import Header from './components/Header';
 
 import './App.css';
 
@@ -11,6 +12,7 @@ function App() {
   return (
     <BrowserRouter basename="/online-store">
       <div className="App">
+        <Header />
         <CartLink />
         <Switch>
           <Route exact path="/" component={Home} />

@@ -6,10 +6,11 @@ import './style.css';
 
 class Evaluation extends React.Component {
   render() {
-    let { user, comment } = this.props;
+    let { email, comment } = this.props;
     const { rating } = this.props;
-    if (user === '') {
-      user = 'Anônimo';
+
+    if (email === '') {
+      email = 'Anônimo';
     }
     if (comment === '') {
       comment = 'Usuário não teceu comentários';
@@ -19,25 +20,25 @@ class Evaluation extends React.Component {
     return (
       <div className="evaluation">
         <div className="email-rating">
-          <p className="email">{ user }</p>
+          <p className="email">{email}</p>
           <StarRatings
-            rating={ Number(rating) }
+            rating={Number(rating)}
             starRatedColor="rgb(255, 194, 25)"
             starHoverColor="rgb(255, 194, 25)"
-            numberOfStars={ 5 }
+            numberOfStars={5}
             name="rating"
             starDimension="1.5em"
             starSpacing="0.5em"
           />
         </div>
-        <p>{ comment }</p>
+        <p>{comment}</p>
       </div>
     );
   }
 }
 
 Evaluation.propTypes = {
-  user: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   comment: PropTypes.string.isRequired,
   rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };

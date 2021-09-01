@@ -9,10 +9,10 @@ class EvaluationsZone extends React.Component {
       <div>
         {evaluations.map((element, index) => (
           <Evaluation
-            key={ index }
-            user={ element.user }
-            rating={ element.rating }
-            comment={ element.comment }
+            key={index}
+            email={element.email}
+            rating={element.rating}
+            comment={element.comment}
           />
         ))}
       </div>
@@ -21,7 +21,11 @@ class EvaluationsZone extends React.Component {
 }
 
 EvaluationsZone.propTypes = {
-  evaluations: PropTypes.arrayOf(PropTypes.object).isRequired,
+  evaluations: PropTypes.arrayOf(PropTypes.object),
+};
+
+EvaluationsZone.defaultProps = {
+  evaluations: [],
 };
 
 export default EvaluationsZone;

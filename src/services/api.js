@@ -15,7 +15,9 @@ export async function getProductById(id) {
 }
 
 export async function getProductsFromCategoryAndQuery(categoryId, query) {
-  const response = await fetch(`${baseURL}/search?category=${categoryId}&q=${query}`);
+  const response = await fetch(
+    `${baseURL}/search?category=${categoryId}&q=${query}`,
+  );
 
   return response.json();
 }
